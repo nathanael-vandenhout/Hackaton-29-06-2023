@@ -1,0 +1,25 @@
+---
+
+- name: "PLAY 1: RESTCONF GETTER"
+  hosts: 10.1.0.4
+  connection: local
+  tasks:
+    - name: "Include vars files"
+      include_vars:
+        dir: "vars/"
+
+    - name: "TASK 1: GET INFO"
+      uri:
+        url: "https://10.1.0.4/restconf/data/Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state/ospf-instance=address-family-ipv4,16843009/ospf-area=0/ospf-interface=GigabitEthernet1/ospf-neighbor"
+        user: "cisco"
+        password: "jFW3km8kRM$fhT3x"
+        method: GET
+        return_content: true
+        headers:
+          Accept: "application/yang-data+json"
+        validate_certs: false
+      register: getter
+
+    - name: "TASK 2: PRINT OUTPUT"
+      debug:
+        var: getter.json

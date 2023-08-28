@@ -1,0 +1,82 @@
+---
+- name: "PLAY 1: RESTCONF CONFIGURATION"
+  hosts: csr
+  connection: local
+  tasks:
+    - name: "Include vars files"
+      include_vars:
+        dir: "vars/"
+
+    - name: "TASK: Configure banner via RESTCONF"
+      uri:
+        url: "{{ url }}/data/native/banner/login"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        method: POST
+        headers:
+          Content-Type: 'application/yang-data+json'
+          Accept:
+            application/yang-data+json,
+            application/yang-data.errors+json
+        body_format: json
+        body: "{{ setbanner }}"
+        validate_certs: false
+        status_code:
+         - 200
+         - 201
+         - 204
+         - 409
+
+    - name: "TASK: Configure looback via RESTCONF"
+      uri:
+        url: "{{ url }}/data/native/interface"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        method: PATCH
+        headers:
+          Content-Type: 'application/yang-data+json'
+          Accept:
+            application/yang-data+json,
+            application/yang-data.errors+json
+        body_format: json
+        body: "{{ loopback }}"
+        validate_certs: false
+        status_code:
+         - 200
+         - 204
+
+    - name: "TASK: Configure interface for ospf non-broadcast via RESTCONF"
+      uri:
+        url: "{{ url }}/data/native/interface/GigabitEthernet=1"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        method: PATCH
+        headers:
+          Content-Type: 'application/yang-data+json'
+          Accept:
+            application/yang-data+json,
+            application/yang-data.errors+json
+        body_format: json
+        body: "{{ interface }}"
+        validate_certs: false
+        status_code:
+         - 200
+         - 204
+
+    - name: "TASK: Configure Routing via RESTCONF"
+      uri:
+        url: "{{ url }}/data/native/router"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        method: PUT
+        headers:
+          Content-Type: 'application/yang-data+json'
+          Accept:
+            application/yang-data+json,
+            application/yang-data.errors+json
+        body_format: json
+        body: "{{ ospf_configer }}"
+        validate_certs: false
+        status_code:
+         - 200
+         - 204

@@ -1,0 +1,3 @@
+username: cisco
+password: jFW3km8kRM$fhT3x
+url: "https://{{ ansible_host }}/restconf"
