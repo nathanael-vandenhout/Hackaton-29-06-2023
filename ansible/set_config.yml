@@ -5,7 +5,7 @@
   tasks:
     - name: "Include vars files"
       include_vars:
-        dir: "vars/"
+        dir: "./vars"
 
     - name: "TASK: Configure banner via RESTCONF"
       uri:
@@ -19,7 +19,7 @@
             application/yang-data+json,
             application/yang-data.errors+json
         body_format: json
-        body: "{{ setbanner }}"
+        body: "{{ banner }}"
         validate_certs: false
         status_code:
          - 200

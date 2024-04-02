@@ -6,13 +6,13 @@ from time import sleep
 
 requests.packages.urllib3.disable_warnings()
 
-hosts=["10.1.0.4","10.1.0.5"]
+hosts=["10.1.0.5","10.1.0.6"]
 port="443"
 username='nathanael'
 password=getpass()
 
 token = (
-    "MDU2MzMxYTktM2Q2ZS00MDg0LTliM2MtNTNlZmI4ZTgzZDY3NGI5NzU1MDMtN2Jk_PF84_d3558e03-2933-4d83-8021-b115db9045d4"
+    "Enter your token here!"
 )
 
 url = "https://webexapis.com/v1/rooms"
@@ -28,10 +28,10 @@ headers={
     'Accept': 'application/yang-data+json',
 }
 router_id=[]
-af=[]
+
+baseurl=f'https://{host}:{port}/restconf/data/'
 
 for host in hosts:
-    baseurl=f'https://{host}:{port}/restconf/data/'
     auth = requests.auth.HTTPBasicAuth(username, password)
     url=f"{baseurl}Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state/ospf-instance"
     r = requests.request("GET", url, auth=auth, headers=headers, verify=False).json()['Cisco-IOS-XE-ospf-oper:ospf-instance'][0]['router-id']
@@ -39,8 +39,7 @@ for host in hosts:
 
 while True:
     for host in hosts:
-        baseurl=f'https://{host}:{port}/restconf/data/'
-        if host == '10.1.0.4':
+        if host == '10.1.0.5':
             url=f"{baseurl}Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state/ospf-instance=address-family-ipv4,{router_id[0]}/ospf-area=0/ospf-interface=GigabitEthernet1/ospf-neighbor"
         elif host == '10.1.0.5':
             url=f"{baseurl}Cisco-IOS-XE-ospf-oper:ospf-oper-data/ospf-state/ospf-instance=address-family-ipv4,{router_id[1]}/ospf-area=0/ospf-interface=GigabitEthernet1/ospf-neighbor"

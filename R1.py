@@ -5,7 +5,7 @@ from getpass import getpass
 
 requests.packages.urllib3.disable_warnings()
 
-host="10.1.0.5"
+host="10.1.0.4"
 port="443"
 username='nathanael'
 if len(argv) == 2:
@@ -86,13 +86,13 @@ if __name__ == "__main__":
                                     "id": 101,
                                     "neighbor": [
                                         {
-                                            "ip": "10.1.0.6"
+                                            "ip": "10.1.0.5"
                                         }
                                     ],
 								    "router-id": "1.1.1.1",
                                     "network": [
                                         {
-                                            "ip": "10.1.0.0",
+                                            "ip": "10.1.0.4",
                                             "wildcard": "0.0.0.255",
                                             "area": 0
                                         },

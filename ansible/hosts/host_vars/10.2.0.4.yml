@@ -1,0 +1,52 @@
+---
+ospf_configer:
+  Cisco-IOS-XE-native:router:
+    Cisco-IOS-XE-ospf:router-ospf:
+      ospf:
+        process-id:
+        - id: 101
+          neighbor:
+          - ip: 10.2.0.5
+          network:
+          - area: 0
+            ip: 10.2.0.0
+            wildcard: 0.0.0.255
+          - area: 1
+            ip: 10.10.10.0
+            wildcard: 0.0.0.255
+          router-id: 1.1.1.1
+          passive-interface:
+              default: false
+
+loopback:
+  Cisco-IOS-XE-native:interface:
+    Loopback:
+    - ip:
+        address:
+          primary:
+            address: 10.10.10.1
+            mask: 255.255.255.0
+      name: 0
+
+interface:
+  Cisco-IOS-XE-native:GigabitEthernet:
+    Cisco-IOS-XE-ethernet:negotiation:
+      auto: true
+    ip:
+      Cisco-IOS-XE-nat:nat:
+        outside:
+        -
+      Cisco-IOS-XE-ospf:router-ospf:
+        ospf:
+          network:
+            non-broadcast:
+            -
+      address:
+        dhcp: {}
+    mop:
+      enabled: false
+      sysid: false
+    name: '1'
+
+banner:
+  banner: Dit is R1 voor de I-share kennissessie.
